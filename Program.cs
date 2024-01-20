@@ -10,8 +10,8 @@ namespace Investor360_CSV_to_QIF
 {
     class Program
     {
-        private const string InputFile = "Export-5.csv";
-        private const string OutputFile = "out.qmtf";
+        private const string InputFile = "AccountActivity_Export_IRA_1_1_23.csv";
+        private const string OutputFile = "AccountActivity_Export_IRA_1_1_23.qmtf";
 
         static void Main(string[] args)
         {
@@ -47,7 +47,7 @@ namespace Investor360_CSV_to_QIF
             var i = new InvestmentTransaction
             {
                 Date = DateTime.Parse(fields[0]),      // D
-                Action = fields[2] switch              // N
+                Action = fields[5] switch              // N
                 {
                     "Management Fee" => "Cash",
                     "Contribution to Asset" => "Cash",
@@ -56,16 +56,16 @@ namespace Investor360_CSV_to_QIF
                     "Long Term Capital Gain" => "CGLong",
                     "Short Term Capital Gain" => "CGShort",
                     "Reinvestment" => "Buy",//"ReinvDiv",
-                    _ => fields[2]
+                    _ => fields[5]
                 }
                 ,
                 Security = fields[3].Split('(',')')[^2], // Y - could have multiple (), want last set
                 TextFirstLine = fields[3],                             // P
-                Memo = fields[3],                                      // M
-                Quantity = Math.Abs(Decimal.Parse(fields[4])),         // Q
-                Price = decimal.Parse(fields[5]),                      // I
-                AmountTransferred = Math.Abs(decimal.Parse(fields[6])),// $
-                TransactionAmount = decimal.Parse(fields[6]),          // T
+                Memo = fields[4],                                      // M
+                Quantity = Math.Abs(Decimal.Parse(fields[6])),         // Q
+                Price = decimal.Parse(fields[7]),                      // I
+                AmountTransferred = Math.Abs(decimal.Parse(fields[8])),// $
+                TransactionAmount = decimal.Parse(fields[8]),          // T
                 Commission = 0                                         // O
 
             };
